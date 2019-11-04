@@ -1,0 +1,79 @@
+.\" Manpage for magg.
+.\" Contact jimmy@jmath.read-books.org to correct errors or typos.
+.TH man 1 "01 Nov 2019" "1.0" "magg man page"
+.SH NAME
+.B magg
+\- matrix aggregate 
+.SH SYNOPSIS
+.B magg
+[
+.B -d 
+.I delimiter
+] [
+.B [-f | -i]
+.I alt_input_filename
+] [
+.B -o
+.I output_filename
+] [
+.B -v
+] [
+.B -c
+] [
+.B -s
+.I number_lines
+]
+.B input_filename
+.SH DESCRIPTION
+.B magg
+writes a given numerical sparse matrix to standard output as a CSV-formatted string. It takes as input the sparse matrix entries in CSV file format, the entries being of the form
+.I row index, column index, value.
+The output has one line for each row index and delimited columns for each column index. The values/entries are those explicitly specified, and zero if not explicitly specified. By default
+.B magg
+assumes that all row (column) indices between the minimum and maximum values encountered should be used in the resulting matrix, inserting zero entries if necessary. On Linux/Unix,
+.B magg
+aborts if it would need to allocate more than 80% of the memory available according to
+.B sysconf
+.R \[char46]
+.SH OPTION
+.TP
+.B -d
+Delimiter used for parsing and output. Default is comma (,). Also supports tab by using \'\\t\', the character 't', the string 'tab', or a tab literal between single quotes. Also supports a single space ' '.
+.TP
+.B -f
+.I input_filename
+Optional explicit declaration of the input filename. Otherwise the primary argument is taken to be the input filename.
+.TP
+.B -o
+.I output_filename
+If not supplied, output goes to standard output 
+.I STDOUT
+.R \[char46]
+.TP
+.B -v
+Verbose output provided to standard output. Only provided if
+.B -o
+.I output_file
+is supplied (since otherwise the processed output goes to standard output as well).
+.TP
+.B -c
+The default behavior is to interpret lines starting with the characters % or # as ignorable
+.B comment
+lines. If
+.B -c
+is set,
+.B magg 
+will revert to naive parsing, even if % or # are present in some tokens.
+.TP
+.B -s
+.I number_lines
+Skips the first
+.I number_lines
+of the input file.
+.SH EXAMPLES
+.B magg entry_list.csv > matrix.csv
+
+.B magg -d' ' -v -f entry_list.txt -o matrix.csv
+.SH AUTHOR
+Jimmy Mathews (jimmy@jmath.read-books.org)
+
