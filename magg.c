@@ -306,8 +306,8 @@ int main(int argc, char* argv[]) {
 
     file = fopen(concat(concat(cwd,"/"),filename), "r");
     count = 0;
-    int rows = (rowmax - rowmin) + 1;
-    int cols = (colmax - colmin) + 1;
+    int rows = (rowmax ) + 1; // This is where index conventions are pertinent; currently 0 indexed
+    int cols = (colmax ) + 1; // ...
     int size_mb = (int)(sizeof(float)*rows*cols/1000000);
     if(size_mb > max_memory_mb) {
         fprintf(stderr, "Expected float array size %d x %d too large (%d MB).\n", rows, cols, size_mb);
@@ -379,7 +379,7 @@ int main(int argc, char* argv[]) {
             fprintf(stderr, "Line %d doesn't have enough fields.\n", count);
             return 0;
         }
-        arr[row-rowmin][col-colmin] = val;
+        arr[row][col] = val;
     }
     fclose(file);
 
