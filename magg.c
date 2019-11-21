@@ -142,13 +142,20 @@ int main(int argc, char* argv[]) {
     int skip=0;
     bool ignore_comments = true;
     bool verbose = false;
+    int indexing=1;
     bool explicit_output = false;
     char* logstr;
     size_t size;
     FILE* log = open_memstream(&logstr, &size);
     int opt;
-    while((opt = getopt(argc, argv, ":vcs:d:f:i:o:")) != -1) {
+    while((opt = getopt(argc, argv, ":01vcs:d:f:i:o:")) != -1) {
         switch(opt) {
+            case '0':
+                indexing=0;
+                break;
+            case '1':
+                indexing=1;
+                break;
             case 'v':
                 verbose = true;
                 break;
@@ -306,8 +313,8 @@ int main(int argc, char* argv[]) {
 
     file = fopen(concat(concat(cwd,"/"),filename), "r");
     count = 0;
-    int rows = (rowmax ) + 1; // This is where index conventions are pertinent; currently 0 indexed
-    int cols = (colmax ) + 1; // ...
+    int rows = (rowmax ) + (1-indexing); // This is where index conventions are pertinent; currently 0 indexed
+    int cols = (colmax ) + (1-indexing); // ...
     int size_mb = (int)(sizeof(float)*rows*cols/1000000);
     if(size_mb > max_memory_mb) {
         fprintf(stderr, "Expected float array size %d x %d too large (%d MB).\n", rows, cols, size_mb);
