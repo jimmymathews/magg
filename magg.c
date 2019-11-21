@@ -386,7 +386,7 @@ int main(int argc, char* argv[]) {
             fprintf(stderr, "Line %d doesn't have enough fields.\n", count);
             return 0;
         }
-        arr[row][col] = val;
+        arr[row-indexing][col-indexing] = val;
     }
     fclose(file);
 
